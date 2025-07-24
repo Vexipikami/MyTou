@@ -1,18 +1,23 @@
 const express = require('express');
 const cors = require('cors');
+const dotenv = require('dotenv');
+const connectDB = require('./config/db');
+
+dotenv.config();
+connectDB();
+
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 // Middlewares
 app.use(cors());
 app.use(express.json());
 
-// Route de test
-app.get('/', (req, res) => {
-  res.send('Backend MyTou opérationnel 🎉');
-});
+// Routes
+const notesRoutes = require('./routes/notes');
+app.use('/api/notes', notesRoutes);
 
 // Démarrage du serveur
 app.listen(PORT, () => {
-  console.log(`🚀 Serveur backend lancé sur http://localhost:${PORT}`);
+  console.log(`✅ Serveur démarré sur http://localhost:${PORT}`);
 });
