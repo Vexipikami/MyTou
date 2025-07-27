@@ -1,16 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Sleep = require('../models/Sleep');
+const { getSleeps, createSleep } = require('../controllers/sleepController');
 
-router.get('/', async (req, res) => {
-  const sleeps = await Sleep.find();
-  res.json(sleeps);
-});
-
-router.post('/', async (req, res) => {
-  const newSleep = new Sleep(req.body);
-  await newSleep.save();
-  res.status(201).json(newSleep);
-});
+router.get('/', getSleeps);
+router.post('/', createSleep);
 
 module.exports = router;

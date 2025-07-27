@@ -18,14 +18,15 @@ const notesRoutes = require('./routes/notes');
 const sleepRoutes = require('./routes/sleep');
 const workoutRoutes = require('./routes/workouts');
 const mealRoutes = require('./routes/meals');
+const summaryRoutes = require('./routes/summary');
 
 app.use('/api/notes', notesRoutes);
 app.use('/api/sleep', sleepRoutes);
 app.use('/api/workouts', workoutRoutes);
 app.use('/api/meals', mealRoutes);
+app.use('/api/summary', summaryRoutes);
 
 // Démarrage du serveur
 app.listen(PORT, () => {
   console.log(`✅ Serveur démarré sur http://localhost:${PORT}`);
 });
-

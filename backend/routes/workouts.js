@@ -1,16 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Workout = require('../models/Workout');
+const { getWorkouts, createWorkout } = require('../controllers/workoutController');
 
-router.get('/', async (req, res) => {
-  const workouts = await Workout.find();
-  res.json(workouts);
-});
-
-router.post('/', async (req, res) => {
-  const newWorkout = new Workout(req.body);
-  await newWorkout.save();
-  res.status(201).json(newWorkout);
-});
+router.get('/', getWorkouts);
+router.post('/', createWorkout);
 
 module.exports = router;
