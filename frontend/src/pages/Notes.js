@@ -17,6 +17,11 @@ const Notes = () => {
     fetchNotes();
   };
 
+  const handleDelete = async (id) => {
+    await api.delete(`/notes/${id}`);
+    fetchNotes();
+  };
+
   useEffect(() => {
     fetchNotes();
   }, []);
@@ -45,6 +50,7 @@ const Notes = () => {
         {notes.map((note) => (
           <li key={note._id}>
             <strong>{note.title}</strong>: {note.content}
+            <button onClick={() => handleDelete(note._id)}>🗑️</button>
           </li>
         ))}
       </ul>

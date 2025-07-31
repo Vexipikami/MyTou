@@ -26,6 +26,11 @@ const Meal = () => {
     fetchMeals();
   };
 
+  const handleDelete = async (id) => {
+    await api.delete(`/meals/${id}`);
+    fetchMeals();
+  };
+
   useEffect(() => {
     fetchMeals();
   }, []);
@@ -46,6 +51,7 @@ const Meal = () => {
         {meals.map((m) => (
           <li key={m._id}>
             {m.date.slice(0, 10)} – {m.name} ({m.ingredients.join(', ')}) – {m.calories} cal
+            <button onClick={() => handleDelete(m._id)}>🗑️</button>
           </li>
         ))}
       </ul>

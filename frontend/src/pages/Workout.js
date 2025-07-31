@@ -26,6 +26,11 @@ const Workout = () => {
     fetchWorkouts();
   };
 
+  const handleDelete = async (id) => {
+    await api.delete(`/workouts/${id}`);
+    fetchWorkouts();
+  };
+
   useEffect(() => {
     fetchWorkouts();
   }, []);
@@ -46,6 +51,7 @@ const Workout = () => {
         {workouts.map((w) => (
           <li key={w._id}>
             {w.date.slice(0, 10)} – {w.type}, {w.duration} min, {w.caloriesBurned} cal ({w.exercises.join(', ')})
+            <button onClick={() => handleDelete(w._id)}>🗑️</button>
           </li>
         ))}
       </ul>

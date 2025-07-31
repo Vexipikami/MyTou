@@ -18,3 +18,12 @@ exports.createMeal = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+exports.deleteMeal = async (req, res) => {
+  try {
+    await Meal.findByIdAndDelete(req.params.id);
+    res.status(204).end();
+  } catch (err) {
+    res.status(500).json({ error: 'Erreur lors de la suppression du repas' });
+  }
+};

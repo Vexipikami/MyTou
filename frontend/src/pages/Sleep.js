@@ -22,6 +22,11 @@ const Sleep = () => {
     fetchSleep();
   };
 
+  const handleDelete = async (id) => {
+    await api.delete(`/sleep/${id}`);
+   fetchSleep();
+  };
+
   useEffect(() => {
     fetchSleep();
   }, []);
@@ -41,6 +46,7 @@ const Sleep = () => {
         {sleeps.map((s) => (
           <li key={s._id}>
             {s.date.slice(0, 10)} – {s.sleepTime} → {s.wakeTime} ({s.comment})
+            <button onClick={() => handleDelete(s._id)}>🗑️</button>
           </li>
         ))}
       </ul>
