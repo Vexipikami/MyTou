@@ -4,6 +4,7 @@ import api from '../api';
 const Notes = () => {
   const [notes, setNotes] = useState([]);
   const [formData, setFormData] = useState({ title: '', content: '' });
+  const [editingId, setEditingId] = useState(null);
 
   const fetchNotes = async () => {
     const res = await api.get('/notes');
@@ -12,7 +13,12 @@ const Notes = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await api.post('/notes', formData);
+    if (editingId) {
+      await api.put(`/notes/${editingId}`, formData);
+      setEditingId(null);
+    } else {
+      await api.post('/notes', formData);
+    }
     setFormData({ title: '', content: '' });
     fetchNotes();
   };
@@ -20,6 +26,11 @@ const Notes = () => {
   const handleDelete = async (id) => {
     await api.delete(`/notes/${id}`);
     fetchNotes();
+  };
+
+  const handleEdit = (note) => {
+    setFormData({ title: note.title, content: note.content });
+    setEditingId(note._id);
   };
 
   useEffect(() => {
@@ -43,13 +54,14 @@ const Notes = () => {
           onChange={(e) => setFormData({ ...formData, content: e.target.value })}
           required
         />
-        <button type="submit">Ajouter</button>
+        <button type="submit">{editingId ? 'Modifier' : 'Ajouter'}</button>
       </form>
 
       <ul>
         {notes.map((note) => (
           <li key={note._id}>
             <strong>{note.title}</strong>: {note.content}
+            <button onClick={() => handleEdit(note)}>✏️</button>
             <button onClick={() => handleDelete(note._id)}>🗑️</button>
           </li>
         ))}

@@ -7,8 +7,9 @@ const Sleep = () => {
     date: '',
     sleepTime: '',
     wakeTime: '',
-    comment: '',
+    comment: ''
   });
+  const [editingId, setEditingId] = useState(null);
 
   const fetchSleep = async () => {
     const res = await api.get('/sleep');
@@ -17,14 +18,24 @@ const Sleep = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await api.post('/sleep', formData);
+    if (editingId) {
+      await api.put(`/sleep/${editingId}`, formData);
+      setEditingId(null);
+    } else {
+      await api.post('/sleep', formData);
+    }
     setFormData({ date: '', sleepTime: '', wakeTime: '', comment: '' });
     fetchSleep();
   };
 
+  const handleEdit = (s) => {
+    setFormData(s);
+    setEditingId(s._id);
+  };
+
   const handleDelete = async (id) => {
     await api.delete(`/sleep/${id}`);
-   fetchSleep();
+    fetchSleep();
   };
 
   useEffect(() => {
@@ -33,19 +44,20 @@ const Sleep = () => {
 
   return (
     <div>
-      <h2>Suivi du sommeil</h2>
+      <h2>Sommeil</h2>
       <form onSubmit={handleSubmit}>
         <input type="date" value={formData.date} onChange={(e) => setFormData({ ...formData, date: e.target.value })} required />
-        <input type="time" value={formData.sleepTime} onChange={(e) => setFormData({ ...formData, sleepTime: e.target.value })} placeholder="Heure de coucher" required />
-        <input type="time" value={formData.wakeTime} onChange={(e) => setFormData({ ...formData, wakeTime: e.target.value })} placeholder="Heure de réveil" required />
-        <input type="text" value={formData.comment} onChange={(e) => setFormData({ ...formData, comment: e.target.value })} placeholder="Commentaire" />
-        <button type="submit">Ajouter</button>
+        <input type="time" value={formData.sleepTime} onChange={(e) => setFormData({ ...formData, sleepTime: e.target.value })} required />
+        <input type="time" value={formData.wakeTime} onChange={(e) => setFormData({ ...formData, wakeTime: e.target.value })} required />
+        <input type="text" placeholder="Commentaire" value={formData.comment} onChange={(e) => setFormData({ ...formData, comment: e.target.value })} />
+        <button type="submit">{editingId ? 'Modifier' : 'Ajouter'}</button>
       </form>
 
       <ul>
         {sleeps.map((s) => (
           <li key={s._id}>
             {s.date.slice(0, 10)} – {s.sleepTime} → {s.wakeTime} ({s.comment})
+            <button onClick={() => handleEdit(s)}>✏️</button>
             <button onClick={() => handleDelete(s._id)}>🗑️</button>
           </li>
         ))}

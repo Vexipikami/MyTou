@@ -27,3 +27,12 @@ exports.deleteWorkout = async (req, res) => {
     res.status(500).json({ error: 'Erreur lors de la suppression de l’entraînement' });
   }
 };
+
+exports.updateWorkout = async (req, res) => {
+  try {
+    const workout = await Workout.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(workout);
+  } catch (err) {
+    res.status(500).json({ error: 'Erreur lors de la mise à jour de l’entraînement' });
+  }
+};

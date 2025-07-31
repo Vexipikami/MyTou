@@ -19,3 +19,12 @@ exports.deleteNote = async (req, res) => {
     res.status(500).json({ error: 'Erreur lors de la suppression de la note' });
   }
 };
+
+exports.updateNote = async (req, res) => {
+  try {
+    const note = await Note.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(note);
+  } catch (err) {
+    res.status(500).json({ error: 'Erreur lors de la mise à jour de la note' });
+  }
+};

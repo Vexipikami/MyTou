@@ -27,3 +27,12 @@ exports.deleteSleep = async (req, res) => {
     res.status(500).json({ error: 'Erreur lors de la suppression du sommeil' });
   }
 };
+
+exports.updateSleep = async (req, res) => {
+  try {
+    const sleep = await Sleep.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(sleep);
+  } catch (err) {
+    res.status(500).json({ error: 'Erreur lors de la mise à jour du sommeil' });
+  }
+};

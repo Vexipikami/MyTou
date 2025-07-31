@@ -27,3 +27,12 @@ exports.deleteMeal = async (req, res) => {
     res.status(500).json({ error: 'Erreur lors de la suppression du repas' });
   }
 };
+
+exports.updateMeal = async (req, res) => {
+  try {
+    const meal = await Meal.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(meal);
+  } catch (err) {
+    res.status(500).json({ error: 'Erreur lors de la mise à jour du repas' });
+  }
+};
