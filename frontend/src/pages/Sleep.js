@@ -29,7 +29,13 @@ const Sleep = () => {
   };
 
   const handleEdit = (s) => {
-    setFormData(s);
+    setFormData({
+      ...s,
+      date: s.date.slice(0, 10),
+      sleepTime: s.sleepTime,
+      wakeTime: s.wakeTime,
+      comment: s.comment,
+    });
     setEditingId(s._id);
   };
 

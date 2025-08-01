@@ -12,19 +12,20 @@ const Summary = () => {
     fetchSummary();
   }, []);
 
+  if (!summary) return <p>Chargement...</p>;
+
   return (
     <div>
       <h2>Résumé hebdomadaire</h2>
-      {summary ? (
-        <ul>
-          <li>Notes prises : {summary.notesCount}</li>
-          <li>Nuits de sommeil : {summary.sleepCount}</li>
-          <li>Séances de sport : {summary.workoutsCount}</li>
-          <li>Repas enregistrés : {summary.mealsCount}</li>
-        </ul>
-      ) : (
-        <p>Chargement...</p>
-      )}
+      <ul>
+        <li>📝 Notes prises : {summary.notesCount}</li>
+        <li>😴 Nuits enregistrées : {summary.sleepCount}</li>
+        <li>🏋️‍♂️ Séances de sport : {summary.workoutsCount}</li>
+        <li>🍽️ Repas enregistrés : {summary.mealsCount}</li>
+        <li>⏱️ Sommeil moyen : {summary.avgSleepMinutes} min/nuit</li>
+        <li>🔥 Calories brûlées (moy. par jour) : {summary.avgCaloriesBurnedPerDay}</li>
+        <li>🍔 Calories consommées (moy. par jour) : {summary.avgCaloriesConsumedPerDay}</li>
+      </ul>
     </div>
   );
 };

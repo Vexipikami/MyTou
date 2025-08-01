@@ -34,7 +34,11 @@ const Meal = () => {
   };
 
   const handleEdit = (m) => {
-    setFormData({ ...m, ingredients: m.ingredients.join(', ') });
+    setFormData({
+      ...m,
+      date: m.date.slice(0, 10),
+      ingredients: m.ingredients.join(', ')
+    });
     setEditingId(m._id);
   };
 

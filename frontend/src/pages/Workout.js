@@ -34,7 +34,11 @@ const Workout = () => {
   };
 
   const handleEdit = (w) => {
-    setFormData({ ...w, exercises: w.exercises.join(', ') });
+    setFormData({
+      ...w,
+      date: w.date.slice(0, 10),
+      exercises: w.exercises.join(', ')
+    });
     setEditingId(w._id);
   };
 
